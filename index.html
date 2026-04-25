@@ -3,35 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NONIOAEY 🌸 | Premium Studio</title>
+    <title>NONIOAEY | Premium Studio</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="bg-animated"></div>
-    <div class="bubbles">
-        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-    </div>
+    <div class="bg-soft"></div>
 
-    <div id="toast" class="toast">แจ้งเตือน</div>
+    <div id="toast" class="toast"><i class="fa-solid fa-circle-check"></i> <span id="toast-text">แจ้งเตือน</span></div>
 
     <main class="main-wrapper">
 
         <section id="page-home" class="page-section active">
             
             <div class="glass-card profile-header">
-                <div class="sparkle s1">✨</div><div class="sparkle s2">🌸</div>
-
                 <div class="avatar-wrap">
-                    <img src="https://placehold.co/300x300/ffb6c1/ffffff?text=Eoy" id="img-profile" alt="Profile">
+                    <img src="https://placehold.co/300x300/ffb6c1/ffffff?text=Profile" id="img-profile" alt="Profile">
                     <button class="admin-ui btn-edit-static" onclick="editStaticImg('img-profile')"><i class="fa-solid fa-camera"></i></button>
                 </div>
                 
                 <h1 class="brand-name">NONIOAEY</h1>
-                <div class="tag-ribbon">♡ Premium Commission ♡</div>
-                <p class="bio edit-text" id="txt-bio">รับทำป้ายขายไอดี • ทำเว็บร้าน • ปล่อยเช่ารหัส • และอื่นๆ งานสวยละมุน นุ่มฟูแน่นอนค่ะ 💕</p>
+                <div class="tag-ribbon"><i class="fa-solid fa-crown"></i> Premium Commission</div>
+                <p class="bio edit-text" id="txt-bio">รับทำป้ายขายไอดี • ทำเว็บร้าน • ปล่อยเช่ารหัส • และอื่นๆ งานคุณภาพระดับมืออาชีพ</p>
                 
                 <div class="social-links">
                     <a href="https://www.facebook.com/share/1De6NiueGU/?mibextid=wwXIfr" target="_blank" class="s-btn"><i class="fa-brands fa-facebook-f"></i></a>
@@ -40,134 +35,159 @@
             </div>
 
             <div class="menu-container">
-                <button class="menu-btn" onclick="navTo('page-web')"><div class="m-icon"><i class="fa-solid fa-code"></i></div> งานเว็บ</button>
-                <button class="menu-btn" onclick="navTo('page-id')"><div class="m-icon"><i class="fa-solid fa-paintbrush"></i></div> ป้ายไอดี</button>
-                <button class="menu-btn" onclick="navTo('page-decor')"><div class="m-icon"><i class="fa-solid fa-shapes"></i></div> บล็อกป้าย</button>
-                <button class="menu-btn" onclick="navTo('page-rov')"><div class="m-icon"><i class="fa-solid fa-gamepad"></i></div> กลุ่ม ROV</button>
-                <button class="menu-btn" onclick="navTo('page-idv')"><div class="m-icon"><i class="fa-solid fa-mask"></i></div> Identity V</button>
-                <button class="menu-btn" onclick="navTo('page-forms')"><div class="m-icon"><i class="fa-regular fa-rectangle-list"></i></div> ฟอร์ม</button>
-                <button class="menu-btn" onclick="navTo('page-course')"><div class="m-icon"><i class="fa-solid fa-graduation-cap"></i></div> คอร์สเรียน</button>
-                <button class="menu-btn" onclick="navTo('page-faq')"><div class="m-icon"><i class="fa-solid fa-circle-question"></i></div> FAQ</button>
+                <button class="menu-btn" onclick="navTo('page-web')">
+                    <div class="m-icon"><i class="fa-solid fa-code"></i></div> 
+                    <span>งานเว็บ</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-id')">
+                    <div class="m-icon"><i class="fa-solid fa-palette"></i></div> 
+                    <span>ป้ายไอดี</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-decor')">
+                    <div class="m-icon"><i class="fa-solid fa-shapes"></i></div> 
+                    <span>บล็อกป้าย</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-rov')">
+                    <div class="m-icon"><i class="fa-solid fa-gamepad"></i></div> 
+                    <span>กลุ่ม ROV</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-idv')">
+                    <div class="m-icon"><i class="fa-solid fa-mask"></i></div> 
+                    <span>Identity V</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-forms')">
+                    <div class="m-icon"><i class="fa-regular fa-window-restore"></i></div> 
+                    <span>กลุ่มฟอร์ม</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-course')">
+                    <div class="m-icon"><i class="fa-solid fa-graduation-cap"></i></div> 
+                    <span>คอร์สเรียน</span>
+                </button>
+                <button class="menu-btn" onclick="navTo('page-faq')">
+                    <div class="m-icon"><i class="fa-solid fa-clipboard-list"></i></div> 
+                    <span>FAQ & สั่งซื้อ</span>
+                </button>
             </div>
 
-            <div class="footer-sign">design. @NONIOAEY 🌸</div>
+            <div class="footer-sign">design. @NONIOAEY</div>
         </section>
 
         <section id="page-web" class="page-section hidden">
             <div class="top-nav">
-                <button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button>
-                <h2 class="page-title">งานเว็บ 💻</h2>
+                <button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 class="page-title">งานเว็บ</h2>
             </div>
 
             <div class="glass-card mb-20">
-                <p class="edit-text text-center mb-15" id="txt-web-desc">รับทำเว็บไซต์ลิงค์ร้าน มีทั้งเทมเพลตและสั่งทำพิเศษ</p>
-                <h3 class="cute-heading"><i class="fa-solid fa-tag"></i> เรทราคาเว็บ</h3>
-                <ul class="price-list">
+                <p class="edit-text text-center mb-15" id="txt-web-desc">รับทำเว็บไซต์ลิงก์ร้าน มีทั้งเทมเพลตและสั่งทำพิเศษ</p>
+                <h3 class="soft-heading"><i class="fa-solid fa-tag"></i> เรทราคาเว็บ</h3>
+                <ul class="clean-list">
                     <li><span>เว็บโอนเงิน</span> <b>69.-</b></li>
                     <li><span>เว็บตัวอย่างผลงาน</span> <b>109.-</b></li>
                     <li><span>เว็บรายละเอียดต่างๆ</span> <b>159.-</b></li>
                     <li><span>ผลงาน + รายละเอียด</span> <b>209.-</b></li>
                 </ul>
-                <hr class="dash-hr">
-                <h3 class="cute-heading"><i class="fa-solid fa-bolt"></i> ราคาบวกเพิ่ม</h3>
-                <ul class="note-list">
-                    <li>แก้ฟรี 1 ครั้งก่อนส่ง (หลังส่งแก้จุดละ 5.-)</li>
-                    <li>รูป 1-3 ใส่ฟรี (เพิ่มรูปล่ะ 10.-)</li>
-                    <li>รองาน 4-8 ชั่วโมง (หากคิวเยอะจะแจ้งก่อน)</li>
+                <div class="divider"></div>
+                <h3 class="soft-heading"><i class="fa-solid fa-bolt"></i> ราคาบวกเพิ่ม</h3>
+                <ul class="clean-list-sub">
+                    <li><i class="fa-solid fa-check"></i> แก้ฟรี 1 ครั้งก่อนส่ง (หลังส่งแก้จุดละ 5.-)</li>
+                    <li><i class="fa-solid fa-check"></i> รูป 1-3 ใส่ฟรี (เพิ่มรูปล่ะ 10.-)</li>
+                    <li><i class="fa-solid fa-check"></i> รองาน 4-8 ชั่วโมง (หากคิวเยอะจะแจ้งก่อน)</li>
                 </ul>
             </div>
 
-            <h3 class="gallery-title">✨ ผลงานของเรา ✨</h3>
+            <h3 class="gallery-title"><i class="fa-solid fa-layer-group"></i> ผลงานของเรา</h3>
             <div class="gallery-grid" id="gal-web"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('web')"><i class="fa-solid fa-plus"></i> เพิ่มผลงานเว็บ</button>
         </section>
 
         <section id="page-id" class="page-section hidden">
             <div class="top-nav">
-                <button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button>
-                <h2 class="page-title">ป้ายไอดี 🎨</h2>
+                <button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button>
+                <h2 class="page-title">ป้ายไอดี</h2>
             </div>
 
             <div class="glass-card mb-20">
-                <p class="edit-text text-center mb-15" id="txt-id-desc">รับทำป้ายขายไอดี ดีไซน์โดดเด่น เพิ่มยอดขายปังๆ!</p>
-                <h3 class="cute-heading"><i class="fa-solid fa-star"></i> 𝖲𝗄𝗂𝗇 𝖱𝖺𝗍𝖾</h3>
-                <ul class="price-list">
+                <p class="edit-text text-center mb-15" id="txt-id-desc">รับทำป้ายขายไอดี ดีไซน์โดดเด่น เพิ่มยอดขาย</p>
+                <h3 class="soft-heading"><i class="fa-solid fa-star"></i> Skin Rate</h3>
+                <ul class="clean-list">
                     <li><span>1 - 100 สกิน</span> <b>0.50/สกิน</b></li>
                     <li><span>100+ สกิน</span> <b>1.00/สกิน</b></li>
                 </ul>
-                <hr class="dash-hr">
-                <h3 class="cute-heading"><i class="fa-solid fa-gem"></i> 𝖮𝗍𝗁𝖾𝗋𝗌</h3>
-                <ul class="price-list">
+                <div class="divider"></div>
+                <h3 class="soft-heading"><i class="fa-solid fa-gem"></i> Others</h3>
+                <ul class="clean-list">
                     <li><span>หัวป้าย</span> <b>35.-</b></li>
                     <li><span>ป้ายไฟ</span> <b>2.-/ชิ้น</b></li>
                     <li><span>ประดับ</span> <b>0.50/ชิ้น</b></li>
                 </ul>
             </div>
 
-            <h3 class="gallery-title">✨ ตัวอย่างงานป้าย (กดขยายได้) ✨</h3>
+            <h3 class="gallery-title"><i class="fa-regular fa-images"></i> ตัวอย่างงานป้าย</h3>
             <div class="gallery-grid grid-2" id="gal-id"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('id')"><i class="fa-solid fa-plus"></i> เพิ่มป้ายไอดี</button>
         </section>
 
         <section id="page-decor" class="page-section hidden">
-            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button><h2 class="page-title">บล็อกป้าย 🎀</h2></div>
+            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button><h2 class="page-title">บล็อกป้าย</h2></div>
             <div class="gallery-grid" id="gal-decor"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('decor')"><i class="fa-solid fa-plus"></i> เพิ่มบล็อกป้าย</button>
         </section>
 
         <section id="page-rov" class="page-section hidden">
-            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button><h2 class="page-title">กลุ่ม ROV 🎮</h2></div>
+            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button><h2 class="page-title">กลุ่ม ROV</h2></div>
             <div class="gallery-grid" id="gal-rov"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('rov')"><i class="fa-solid fa-plus"></i> เพิ่มงาน ROV</button>
         </section>
 
         <section id="page-idv" class="page-section hidden">
-            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button><h2 class="page-title">Identity V 🕵️</h2></div>
+            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button><h2 class="page-title">Identity V</h2></div>
             <div class="gallery-grid" id="gal-idv"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('idv')"><i class="fa-solid fa-plus"></i> เพิ่มงาน IDV</button>
         </section>
 
         <section id="page-forms" class="page-section hidden">
-            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button><h2 class="page-title">กลุ่มฟอร์ม 📝</h2></div>
+            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button><h2 class="page-title">กลุ่มฟอร์ม</h2></div>
             <div class="gallery-grid" id="gal-forms"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('forms')"><i class="fa-solid fa-plus"></i> เพิ่มฟอร์ม</button>
         </section>
 
         <section id="page-course" class="page-section hidden">
-            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button><h2 class="page-title">คอร์สเรียน 📚</h2></div>
+            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button><h2 class="page-title">คอร์สเรียน</h2></div>
             <div class="gallery-grid" id="gal-course"></div>
             <button class="admin-ui btn-add-massive" onclick="openAddModal('course')"><i class="fa-solid fa-plus"></i> เพิ่มคอร์ส</button>
         </section>
 
         <section id="page-faq" class="page-section hidden">
-            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-chevron-left"></i></button><h2 class="page-title">FAQ & สั่งซื้อ ❓</h2></div>
+            <div class="top-nav"><button class="back-btn" onclick="navTo('page-home')"><i class="fa-solid fa-arrow-left"></i></button><h2 class="page-title">FAQ & สั่งซื้อ</h2></div>
             
             <div class="glass-card text-left">
-                <h3 class="cute-heading"><i class="fa-solid fa-comments"></i> คำถามที่พบบ่อย</h3>
+                <h3 class="soft-heading"><i class="fa-regular fa-comments"></i> คำถามที่พบบ่อย</h3>
                 <div class="qa-box">
                     <p class="q">Q: สั่งงานช่องทางไหน?</p>
-                    <p class="a">A: Inbox FB หรือ Line ที่หน้าแรกได้เลยค่ะ 🥰</p>
+                    <p class="a">A: Inbox Facebook หรือ Line ที่หน้าแรกได้เลยค่ะ</p>
                 </div>
                 <div class="qa-box">
                     <p class="q">Q: รองานนานไหม?</p>
                     <p class="a">A: ปกติ 4-8 ชั่วโมง (หากคิวเยอะจะแจ้งก่อนค่ะ)</p>
                 </div>
                 
-                <hr class="dash-hr">
+                <div class="divider"></div>
                 
-                <h3 class="cute-heading"><i class="fa-solid fa-cart-shopping"></i> วิธีสั่งซื้อ</h3>
+                <h3 class="soft-heading"><i class="fa-solid fa-cart-shopping"></i> วิธีสั่งซื้อ</h3>
                 <ul class="step-list">
                     <li><div class="s-num">1</div> เลือกงานที่ต้องการ</li>
-                    <li><div class="s-num">2</div> ส่งบรีฟทางแชท</li>
-                    <li><div class="s-num">3</div> โอนเงินยืนยันคิว</li>
-                    <li><div class="s-num">4</div> รอรับผลงานสวยๆ 🎀</li>
+                    <li><div class="s-num">2</div> ส่งบรีฟทางแชทให้ชัดเจน</li>
+                    <li><div class="s-num">3</div> โอนเงินยืนยันคิวงาน</li>
+                    <li><div class="s-num">4</div> รอรับผลงานค่ะ</li>
                 </ul>
             </div>
         </section>
         
-        <div style="height: 50px;"></div> </main>
+        <div style="height: 60px;"></div>
+    </main>
 
-    <button class="fab-admin" onclick="toggleAdmin()"><i class="fa-solid fa-gear"></i></button>
+    <button class="fab-admin" onclick="toggleAdmin()"><i class="fa-solid fa-sliders"></i></button>
 
     <div id="modal-img" class="modal-bg dark hidden">
         <button class="close-x text-white" onclick="closeModal('modal-img')"><i class="fa-solid fa-xmark"></i></button>
@@ -177,23 +197,23 @@
     <div id="modal-link" class="modal-bg hidden">
         <div class="modal-glass">
             <button class="close-x" onclick="closeModal('modal-link')"><i class="fa-solid fa-xmark"></i></button>
-            <i class="fa-solid fa-link icon-top"></i>
-            <h3 id="link-title">ชื่องาน</h3>
-            <p class="modal-desc">คลิกปุ่มด้านล่างเพื่อไปดูตัวอย่างเว็บนะคะ</p>
-            <a href="#" target="_blank" id="link-url" class="btn-glow">เปิดลิงก์ <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <div class="icon-top"><i class="fa-solid fa-link"></i></div>
+            <h3 id="link-title" class="modal-title">ชื่องาน</h3>
+            <p class="modal-desc">คลิกเพื่อไปยังหน้าตัวอย่างเว็บ</p>
+            <a href="#" target="_blank" id="link-url" class="btn-glow">เปิดลิงก์ <i class="fa-solid fa-arrow-up-right-from-square" style="margin-left:5px;"></i></a>
         </div>
     </div>
 
     <div id="modal-add" class="modal-bg hidden">
         <div class="modal-glass">
             <button class="close-x" onclick="closeModal('modal-add')"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="modal-title">✨ เพิ่มผลงานใหม่ ✨</h3>
+            <h3 class="modal-title mb-15">เพิ่มผลงานใหม่</h3>
             <input type="text" id="add-title" class="input-glass" placeholder="ชื่องาน...">
             <input type="text" id="add-link" class="input-glass" placeholder="ลิงก์ตัวอย่าง (ถ้ามี)...">
             <div class="upload-zone" onclick="document.getElementById('add-file').click()">
-                <img id="add-preview" src="https://placehold.co/400x200/ffe4e1/ff69b4?text=+Click+to+Upload" alt="Preview">
+                <img id="add-preview" src="https://placehold.co/400x200/fafafa/d9d9d9?text=Tap+to+Upload" alt="Preview">
                 <input type="file" id="add-file" class="hidden" accept="image/*" onchange="previewAddImg(event)">
-                <div class="up-hint"><i class="fa-solid fa-image"></i> แตะเพื่อเลือกรูป</div>
+                <div class="up-hint"><i class="fa-solid fa-upload"></i> อัปโหลดรูปภาพ</div>
             </div>
             <button class="btn-glow" onclick="saveNewItem()">บันทึกผลงาน</button>
         </div>
@@ -202,11 +222,11 @@
     <div id="modal-login" class="modal-bg hidden">
         <div class="modal-glass">
             <button class="close-x" onclick="closeModal('modal-login')"><i class="fa-solid fa-xmark"></i></button>
-            <i class="fa-solid fa-lock icon-top"></i>
+            <div class="icon-top"><i class="fa-solid fa-lock"></i></div>
             <h3 class="modal-title">Admin Login</h3>
-            <p class="modal-desc">ระบบจัดการร้าน เปลี่ยนรูป/แก้ข้อความ</p>
+            <p class="modal-desc">ใส่รหัสผ่านเพื่อจัดการหน้าเว็บ</p>
             <input type="password" id="login-pass" class="input-glass" placeholder="รหัสผ่าน...">
-            <p id="login-err" class="hidden" style="color:red; font-size:12px; margin-top:5px;">รหัสผิด!</p>
+            <p id="login-err" class="hidden error-text">รหัสผ่านไม่ถูกต้อง!</p>
             <button class="btn-glow mt-15" onclick="verifyAdmin()">เข้าสู่ระบบ</button>
         </div>
     </div>
