@@ -1,276 +1,240 @@
-// ================= 1. ระบบจัดการหน้าต่าง (SPA) =================
-function openPage(pageId) {
-    // ซ่อนทุกหน้า
-    document.querySelectorAll('.view-panel').forEach(panel => {
-        panel.classList.remove('active');
-        panel.classList.add('hidden');
+// ================= 1. ระบบ SPA (เปลี่ยนหน้าไร้รอยต่อ) =================
+function navTo(pageId) {
+    document.querySelectorAll('.page-section').forEach(sec => {
+        sec.classList.remove('active');
+        sec.classList.add('hidden');
     });
-    // แสดงหน้าที่กด
     const target = document.getElementById(pageId);
     target.classList.remove('hidden');
-    void target.offsetWidth; // Force Reflow
+    void target.offsetWidth; // บังคับให้เบราว์เซอร์รีเฟรชอนิเมชัน
     target.classList.add('active');
-
-    // เลื่อนจอขึ้นบนสุด
-    document.querySelector('.app-wrapper').scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // เลื่อนจอธรรมดา ไม่ติดกล่องแล้ว
 }
 
-// ================= 2. ฐานข้อมูล (Database Simulator) =================
-// ใช้ LocalStorage เพื่อให้กดรีเฟรชแล้วข้อมูลไม่หาย
+// ================= 2. ฐานข้อมูลจำลอง (LocalStorage) =================
 let db = {};
 const defaultDB = {
     web: [
         { title: 'เว็บโอนเงิน 69.-', link: 'https://example.com', img: 'https://placehold.co/400x250/ffe4e1/ff69b4?text=Web+Design' }
     ],
     id: [
-        { title: 'ป้ายลายอนิเมะ', img: 'https://placehold.co/400x400/ffe4e1/ff69b4?text=Anime+Banner' }
+        { title: 'ป้ายลายอนิเมะ', img: 'https://placehold.co/400x400/ffe4e1/ff69b4?text=ID+Banner' }
     ],
     decor: [], rov: [], idv: [], forms: [], course: []
 };
 
-function initDB() {
-    const saved = localStorage.getItem('eoy_studio_db');
-    if (saved) {
-        db = JSON.parse(saved);
-    } else {
-        db = defaultDB;
-        saveDB();
-    }
-    // โหลดทุกหมวดหมู่ขึ้นมาโชว์
-    Object.keys(db).forEach(cat => renderGallery(cat));
+function initData() {
+    const saved = localStorage.getItem('db_eoy');
+    if (saved) { db = JSON.parse(saved); } 
+    else { db = defaultDB; saveDB(); }
+    
+    // โหลดผลงานทั้งหมด
+    Object.keys(db).forEach(cat => renderGal(cat));
+    // โหลดข้อความ&รูปคงที่
     loadStaticData();
 }
 
-function saveDB() {
-    localStorage.setItem('eoy_studio_db', JSON.stringify(db));
-}
+function saveDB() { localStorage.setItem('db_eoy', JSON.stringify(db)); }
 
-// ================= 3. ระบบแสดงผลแกลลอรี่ (Render) =================
-function renderGallery(category) {
-    const container = document.getElementById(`gallery-${category}`);
-    if (!container) return;
-    
-    container.innerHTML = ''; // ล้างของเก่า
+// ================= 3. RENDER GALLERY (สร้าง HTML จากข้อมูล) =================
+function renderGal(cat) {
+    const cont = document.getElementById(`gal-${cat}`);
+    if (!cont) return;
+    cont.innerHTML = ''; 
 
-    if (db[category].length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#ccc; font-size:13px; grid-column:1/-1; padding: 20px;">ยังไม่มีผลงานในหมวดนี้ 🌸</p>`;
+    if (db[cat].length === 0) {
+        cont.innerHTML = `<p style="text-align:center; color:#ccc; font-size:13px; grid-column:1/-1;">ยังไม่มีผลงานจ้า 🌸</p>`;
         return;
     }
 
-    db[category].forEach((item, index) => {
+    db[cat].forEach((item, idx) => {
         const card = document.createElement('div');
-        card.className = 'work-card';
+        card.className = 'card-work';
 
-        // ป้ายไอดีเป็นจัตุรัส กดแล้วซูม // หมวดอื่นเป็นผืนผ้า กดดูลิงก์
-        const isZoomable = category === 'id';
-        const imgClick = isZoomable ? `onclick="openZoom('${item.img}')"` : '';
-        const zoomClass = isZoomable ? 'zoomable' : '';
+        // ป้ายไอดีกดขยายรูป หมวดอื่นกดดูลิงก์
+        const isZoom = cat === 'id';
+        const imgAct = isZoom ? `onclick="openZoom('${item.img}')"` : '';
+        const zClass = isZoom ? 'zoomable' : '';
         
-        // โค้ดปุ่มแอดมิน (ซ่อนอยู่ จะโชว์เมื่อเข้าโหมดแอดมิน)
-        const btnDelete = `<button class="admin-btn del-gallery-btn admin-only hidden" onclick="deleteItem('${category}', ${index})"><i class="fa-solid fa-xmark"></i></button>`;
-        const btnEditImg = `<button class="admin-btn edit-gallery-btn admin-only hidden" onclick="event.stopPropagation(); triggerGalleryUpload('${category}', ${index})"><i class="fa-solid fa-camera"></i></button>`;
+        // ปุ่มแอดมิน (ลบ / เปลี่ยนรูป) -> ผูกคลาส admin-ui เพื่อให้ CSS ซ่อน/โชว์ อัตโนมัติ
+        const btnDel = `<button class="admin-ui btn-del-gal" onclick="delItem('${cat}', ${idx})"><i class="fa-solid fa-xmark"></i></button>`;
+        const btnEditImg = `<button class="admin-ui btn-edit-gal" onclick="event.stopPropagation(); triggerGalleryImg('${cat}', ${idx})"><i class="fa-solid fa-camera"></i></button>`;
 
         let html = `
-            ${btnDelete}
-            <div class="img-frame ${zoomClass}" ${imgClick}>
-                <img src="${item.img}" alt="${item.title}">
+            ${btnDel}
+            <div class="img-box ${zClass}" ${imgAct}>
+                <img src="${item.img}" alt="work">
                 ${btnEditImg}
             </div>
-            <h4 class="edit-text" id="txt-${category}-${index}">${item.title}</h4>
+            <h4 class="edit-text" id="txt-${cat}-${idx}">${item.title}</h4>
         `;
 
-        if (!isZoomable) {
+        if (!isZoom) {
             const url = item.link || '#';
-            html += `<button class="btn-sm-main" onclick="openLink('${item.title}', '${url}')">ดูตัวอย่างผลงาน</button>`;
+            html += `<button class="btn-sm-glow" onclick="openLink('${item.title}', '${url}')">ดูตัวอย่าง</button>`;
         }
 
         card.innerHTML = html;
-        container.appendChild(card);
+        cont.appendChild(card);
     });
 
-    // ถ้าแอดมินล็อกอินอยู่ ให้รีเฟรชการโชว์ปุ่มแอดมินใหม่
-    if (document.body.classList.contains('is-admin')) {
-        enableAdminPowers();
+    // รีเฟรช Event Listener สำหรับพิมพ์แก้ข้อความทันทีหลังจากสร้างเสร็จ
+    if (document.body.classList.contains('admin-mode')) {
+        bindEditableText();
     }
 }
 
-// ================= 4. ระบบเพิ่ม/ลบ ข้อมูล (Add & Delete) =================
-let activeCategory = '';
+// ================= 4. ADD & DELETE (เพิ่ม/ลบ) =================
+let activeCat = '';
 
-function openAddModal(category) {
-    activeCategory = category;
-    document.getElementById('add-input-title').value = '';
-    document.getElementById('add-input-link').value = '';
-    document.getElementById('add-img-preview').src = 'https://placehold.co/400x200/ffe4e1/ff69b4?text=+Click+to+Upload';
-    
-    // ถ้าหมวดป้ายไอดี ไม่ต้องใส่ลิงก์
-    document.getElementById('add-input-link').style.display = (category === 'id') ? 'none' : 'block';
-    
+function openAddModal(cat) {
+    activeCat = cat;
+    document.getElementById('add-title').value = '';
+    document.getElementById('add-link').value = '';
+    document.getElementById('add-preview').src = 'https://placehold.co/400x200/ffe4e1/ff69b4?text=+Click+to+Upload';
+    document.getElementById('add-link').style.display = (cat === 'id') ? 'none' : 'block';
     document.getElementById('modal-add').classList.remove('hidden');
 }
 
-function previewAddImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = e => document.getElementById('add-img-preview').src = e.target.result;
-        reader.readAsDataURL(file);
+function previewAddImg(e) {
+    if(e.target.files[0]){
+        const r = new FileReader();
+        r.onload = ev => document.getElementById('add-preview').src = ev.target.result;
+        r.readAsDataURL(e.target.files[0]);
     }
 }
 
 function saveNewItem() {
-    const title = document.getElementById('add-input-title').value;
-    const link = document.getElementById('add-input-link').value;
-    const imgData = document.getElementById('add-img-preview').src;
+    const t = document.getElementById('add-title').value;
+    const l = document.getElementById('add-link').value;
+    const i = document.getElementById('add-preview').src;
 
-    if (!title || imgData.includes('placehold.co')) {
-        alert('เอยจ๋า อย่าลืมใส่ชื่อผลงานกับรูปภาพนะคะ 🥰');
-        return;
+    if (!t || i.includes('placehold.co')) {
+        alert('เอยจ๋า ใส่ชื่อกับรูปก่อนน้าา 🥰'); return;
     }
 
-    db[activeCategory].push({ title, link, img: imgData });
+    db[activeCat].push({ title: t, link: l, img: i });
     saveDB();
-    renderGallery(activeCategory);
+    renderGal(activeCat);
     closeModal('modal-add');
-    showToast('เพิ่มผลงานลงแกลลอรี่แล้ว! 🎉');
+    showToast('เพิ่มผลงานแล้ว! 🎉');
 }
 
-function deleteItem(category, index) {
-    if (confirm('แน่ใจนะคะว่าจะลบผลงานชิ้นนี้? 🗑️')) {
-        db[category].splice(index, 1);
+function delItem(cat, idx) {
+    if (confirm('ลบงานนี้ทิ้งเลยใช่ไหมคะ? 🗑️')) {
+        db[cat].splice(idx, 1);
         saveDB();
-        renderGallery(category);
-        showToast('ลบผลงานเรียบร้อยค่ะ');
+        renderGal(cat);
+        showToast('ลบเรียบร้อย!');
     }
 }
 
-// ================= 5. ระบบแก้ไขภาพ (Edit Images) =================
-let uploadTarget = { type: '', cat: '', index: null, id: '' };
+// ================= 5. UPLOAD IMAGES (อัปโหลดเปลี่ยนรูป) =================
+let uploadTarget = {};
 
-// เปลี่ยนรูปโปรไฟล์ (Static)
-function triggerStaticUpload(elementId) {
-    uploadTarget = { type: 'static', id: elementId };
-    document.getElementById('static-uploader').click();
+// เปลี่ยนรูปโปรไฟล์ (หรือรูปอื่นๆ ที่ตั้งค่าตายตัว)
+function editStaticImg(id) {
+    uploadTarget = { type: 'static', id: id };
+    document.getElementById('static-file').click();
 }
-function handleStaticUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            document.getElementById(uploadTarget.id).src = e.target.result;
-            localStorage.setItem(uploadTarget.id, e.target.result);
-            showToast('เปลี่ยนรูปภาพสำเร็จ! 🌸');
+function handleStaticImg(e) {
+    if(e.target.files[0]) {
+        const r = new FileReader();
+        r.onload = ev => {
+            document.getElementById(uploadTarget.id).src = ev.target.result;
+            localStorage.setItem(uploadTarget.id, ev.target.result);
+            showToast('เปลี่ยนรูปสำเร็จ! 🌸');
         };
-        reader.readAsDataURL(file);
+        r.readAsDataURL(e.target.files[0]);
     }
 }
 
-// เปลี่ยนรูปในแกลลอรี่ (Dynamic)
-function triggerGalleryUpload(category, index) {
-    uploadTarget = { type: 'gallery', cat: category, index: index };
-    document.getElementById('gallery-uploader').click();
+// เปลี่ยนรูปในแกลลอรี่เจาะจงชิ้น
+function triggerGalleryImg(cat, idx) {
+    uploadTarget = { type: 'gal', cat: cat, idx: idx };
+    document.getElementById('gallery-file').click();
 }
-function handleGalleryUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-            db[uploadTarget.cat][uploadTarget.index].img = e.target.result;
+function handleGalleryImg(e) {
+    if(e.target.files[0]) {
+        const r = new FileReader();
+        r.onload = ev => {
+            db[uploadTarget.cat][uploadTarget.idx].img = ev.target.result;
             saveDB();
-            renderGallery(uploadTarget.cat);
+            renderGal(uploadTarget.cat);
             showToast('อัปเดตรูปผลงานแล้ว! 🌸');
         };
-        reader.readAsDataURL(file);
+        r.readAsDataURL(e.target.files[0]);
     }
 }
 
-// ================= 6. ระบบแอดมิน (Admin Login & Text Edit) =================
+// ================= 6. ADMIN SYSTEM =================
 function toggleAdmin() {
-    if (document.body.classList.contains('is-admin')) {
-        if (confirm('ต้องการออกจากโหมดจัดการร้านใช่ไหมคะ? 🌸')) {
-            document.body.classList.remove('is-admin');
+    if (document.body.classList.contains('admin-mode')) {
+        if(confirm('ปิดโหมดแอดมินนะคะ? 🌸')) {
+            document.body.classList.remove('admin-mode');
             document.querySelectorAll('[contenteditable="true"]').forEach(el => el.setAttribute('contenteditable', 'false'));
-            showToast('ออกจากระบบแอดมินแล้วค่ะ');
+            showToast('ออกจากระบบจัดการร้าน');
         }
     } else {
         document.getElementById('login-pass').value = '';
-        document.getElementById('login-error').classList.add('hidden');
+        document.getElementById('login-err').classList.add('hidden');
         document.getElementById('modal-login').classList.remove('hidden');
     }
 }
 
 function verifyAdmin() {
-    const pass = document.getElementById('login-pass').value.trim().toLowerCase();
-    if (pass === "ss11") {
+    const p = document.getElementById('login-pass').value.trim().toLowerCase();
+    if (p === "ss11") {
         closeModal('modal-login');
-        document.body.classList.add('is-admin');
-        enableAdminPowers();
-        alert('✨ เข้าสู่ระบบจัดการร้านสำเร็จ! ✨\n\n• เอยสามารถกดปุ่ม [+] เพิ่มผลงานได้เลย\n• กดที่รูป 📸 เพื่อเปลี่ยนรูปโปรไฟล์/รูปงาน\n• กดที่ [X] เพื่อลบผลงาน\n• คลิกที่ข้อความต่างๆ เพื่อพิมพ์แก้ได้ทันทีค่ะ!');
+        document.body.classList.add('admin-mode');
+        bindEditableText();
+        alert('✨ เข้าระบบแอดมินสำเร็จ! ✨\n\nปุ่มเปลี่ยนรูป (📸) และปุ่มลบ (X) โผล่ขึ้นมาแล้วค่ะ\nและด้านล่างสุดของทุกหมวดจะมีปุ่ม [+ เพิ่มผลงาน]\nส่วนข้อความต่างๆ คลิกพิมพ์แก้ได้เลยนะคะ!');
     } else {
-        document.getElementById('login-error').classList.remove('hidden');
+        document.getElementById('login-err').classList.remove('hidden');
     }
 }
 
-function enableAdminPowers() {
-    // ดึงคลาส .edit-text ทุกตัวมาทำให้พิมพ์แก้ได้
+function bindEditableText() {
     document.querySelectorAll('.edit-text').forEach(el => {
         el.setAttribute('contenteditable', 'true');
         el.onblur = function() {
-            // เมื่อพิมพ์เสร็จ (คลิกออก) ให้เซฟ
-            if (!this.id) this.id = 'txt-' + Math.random().toString(36).substr(2, 9);
+            if(!this.id) this.id = 'txt-' + Math.random().toString(36).substr(2, 9);
             
-            // ถ้าเป็นข้อความในแกลลอรี่ เซฟลง DB
-            if (this.id.startsWith('txt-') && this.id.split('-').length === 3) {
+            if(this.id.startsWith('txt-') && this.id.split('-').length === 3) {
                 const parts = this.id.split('-');
-                const cat = parts[1];
-                const idx = parseInt(parts[2]);
-                if (db[cat] && db[cat][idx]) {
-                    db[cat][idx].title = this.innerText;
+                if(db[parts[1]] && db[parts[1]][parts[2]]) {
+                    db[parts[1]][parts[2]].title = this.innerText;
                     saveDB();
                 }
             } else {
-                // ถ้าเป็นข้อความทั่วไป เซฟลง LocalStorage โดยตรง
                 localStorage.setItem(this.id, this.innerText);
             }
-            showToast('อัปเดตข้อความแล้ว! 📝');
+            showToast('เซฟข้อความแล้ว! 📝');
         };
     });
 }
 
 function loadStaticData() {
-    // โหลดรูปโปรไฟล์
-    const savedProf = localStorage.getItem('img-profile');
-    if (savedProf) document.getElementById('img-profile').src = savedProf;
+    const prof = localStorage.getItem('img-profile');
+    if(prof) document.getElementById('img-profile').src = prof;
 
-    // โหลดข้อความทั่วไป (Bio, Desc)
     document.querySelectorAll('.edit-text').forEach(el => {
-        if (el.id && !el.id.split('-').length === 3) { // ข้ามพวกที่เป็นแกลลอรี่
-            const savedTxt = localStorage.getItem(el.id);
-            if (savedTxt) el.innerText = savedTxt;
+        if (el.id && el.id.split('-').length !== 3) {
+            const txt = localStorage.getItem(el.id);
+            if(txt) el.innerText = txt;
         }
     });
 }
 
-// ================= 7. ระบบ Modals & Utils =================
+// ================= 7. UTILS & MODALS =================
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-function openZoom(src) {
-    document.getElementById('zoom-img-display').src = src;
-    document.getElementById('modal-image').classList.remove('hidden');
-}
-
-function openLink(title, url) {
-    document.getElementById('link-title').innerText = title;
-    document.getElementById('link-url').href = url || '#';
-    document.getElementById('modal-link').classList.remove('hidden');
-}
-
+function openZoom(src) { document.getElementById('zoom-img').src = src; document.getElementById('modal-img').classList.remove('hidden'); }
+function openLink(t, u) { document.getElementById('link-title').innerText = t; document.getElementById('link-url').href = u || '#'; document.getElementById('modal-link').classList.remove('hidden'); }
 function showToast(msg) {
-    const toast = document.getElementById('toast-msg');
-    toast.innerText = msg;
-    toast.classList.remove('hidden');
-    setTimeout(() => toast.classList.add('hidden'), 3000);
+    const t = document.getElementById('toast');
+    t.innerText = msg; t.classList.remove('hidden');
+    setTimeout(() => t.classList.add('hidden'), 3000);
 }
 
-// เริ่มต้นการทำงานเมื่อหน้าเว็บโหลดเสร็จ
-window.onload = initDB;
+// รันตอนเริ่ม
+window.onload = initData;
